@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. Compose handles actual theming via MaterialTheme. -->
+    <style name="Base.Theme.SignaturePad" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+    </style>
+
+    <style name="Theme.SignaturePad" parent="Base.Theme.SignaturePad" />
+</resources>
