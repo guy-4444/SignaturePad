@@ -29,6 +29,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.Alignment
 import com.guy.signaturepad.ui.theme.SignaturePadTheme
 import io.github.guyskv.signaturepad.compose.SignaturePad
 import io.github.guyskv.signaturepad.compose.SignaturePadConfig
@@ -48,6 +52,7 @@ fun ExportExampleScreen() {
     var exportResult by remember { mutableStateOf("") }
     var exportType by remember { mutableStateOf("") }
     var previewStrokes by remember { mutableStateOf<List<SignatureStroke>>(emptyList()) }
+    val clipboardManager = LocalClipboardManager.current
 
     Column(
         modifier = Modifier
@@ -190,10 +195,22 @@ fun ExportExampleScreen() {
         if (exportResult.isNotEmpty()) {
             Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = "Export Result ($exportType):",
-                style = MaterialTheme.typography.titleSmall
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Export Result ($exportType):",
+                    style = MaterialTheme.typography.titleSmall
+                )
+                
+                OutlinedButton(onClick = {
+                    clipboardManager.setText(AnnotatedString(exportResult))
+                }) {
+                    Text("Copy")
+                }
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 

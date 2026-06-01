@@ -1,4 +1,5 @@
 plugins {
+    id("maven-publish")
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
 }
@@ -22,6 +23,13 @@ android {
     buildFeatures {
         compose = true
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
 }
 
 dependencies {
@@ -42,4 +50,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.guy"
+                artifactId = "signaturepad-compose"
+                version = "1.0.0"
+            }
+        }
+    }
 }

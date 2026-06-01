@@ -58,6 +58,30 @@ class SignaturePadState internal constructor(
     internal var onSignatureChanged: (() -> Unit)? = null
 
     /**
+     * Updates the color and width of all existing strokes.
+     */
+    internal fun updateStrokeProperties(color: io.github.guyskv.signaturepad.core.model.SignatureColor, widthPx: Float) {
+        var changed = false
+        for (i in _strokes.indices) {
+            val stroke = _strokes[i]
+            if (stroke.color != color || stroke.widthPx != widthPx) {
+                _strokes[i] = stroke.copy(color = color, widthPx = widthPx)
+                changed = true
+            }
+        }
+        for (i in _redoStack.indices) {
+            val stroke = _redoStack[i]
+            if (stroke.color != color || stroke.widthPx != widthPx) {
+                _redoStack[i] = stroke.copy(color = color, widthPx = widthPx)
+                changed = true
+            }
+        }
+        if (changed) {
+            onSignatureChanged?.invoke()
+        }
+    }
+
+    /**
      * Clears all strokes and the redo stack.
      */
     fun clear() {

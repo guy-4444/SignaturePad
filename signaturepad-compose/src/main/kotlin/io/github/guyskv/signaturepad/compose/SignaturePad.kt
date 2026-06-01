@@ -62,6 +62,14 @@ fun SignaturePad(
         state.smoothing = config.smoothing
     }
 
+    val strokeColor = config.strokeColor
+    val strokeColorForCore = strokeColor.toSignatureColor()
+
+    // Update existing strokes if config changes
+    LaunchedEffect(strokeColorForCore, strokeWidthPx) {
+        state.updateStrokeProperties(strokeColorForCore, strokeWidthPx)
+    }
+
     // Set the onSignatureChanged callback
     LaunchedEffect(onSignatureChanged) {
         state.onSignatureChanged = onSignatureChanged
@@ -72,8 +80,6 @@ fun SignaturePad(
     var isDrawing by remember { mutableStateOf(false) }
 
     val shape = RoundedCornerShape(config.cornerRadius)
-    val strokeColor = config.strokeColor
-    val strokeColorForCore = strokeColor.toSignatureColor()
 
     Box(
         modifier = modifier
@@ -214,7 +220,8 @@ fun SignaturePad(
                 enabled = state.hasValidSignature,
                 alignment = config.doneButtonAlignment,
                 size = config.doneButtonSize,
-                padding = config.doneButtonPadding
+                padding = config.doneButtonPadding,
+                cornerRadius = config.cornerRadius
             )
         }
     }

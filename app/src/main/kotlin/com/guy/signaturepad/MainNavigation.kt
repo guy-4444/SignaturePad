@@ -22,6 +22,7 @@ import com.guy.signaturepad.screens.CustomizationExampleScreen
 import com.guy.signaturepad.screens.ExportExampleScreen
 import com.guy.signaturepad.screens.FormExampleScreen
 import com.guy.signaturepad.screens.GuidelineExampleScreen
+import com.guy.signaturepad.screens.PreferencesExampleScreen
 
 sealed class Screen(val route: String, val title: String) {
     data object Basic : Screen("basic", "Basic")
@@ -29,6 +30,7 @@ sealed class Screen(val route: String, val title: String) {
     data object Export : Screen("export", "Export")
     data object Custom : Screen("custom", "Custom")
     data object Guideline : Screen("guideline", "Guideline")
+    data object Preferences : Screen("preferences", "Prefs")
 }
 
 private val screens = listOf(
@@ -36,7 +38,8 @@ private val screens = listOf(
     Screen.Form,
     Screen.Export,
     Screen.Custom,
-    Screen.Guideline
+    Screen.Guideline,
+    Screen.Preferences
 )
 
 @Composable
@@ -78,6 +81,7 @@ fun MainNavigation() {
             composable(Screen.Export.route) { ExportExampleScreen() }
             composable(Screen.Custom.route) { CustomizationExampleScreen() }
             composable(Screen.Guideline.route) { GuidelineExampleScreen() }
+            composable(Screen.Preferences.route) { PreferencesExampleScreen() }
         }
     }
 }

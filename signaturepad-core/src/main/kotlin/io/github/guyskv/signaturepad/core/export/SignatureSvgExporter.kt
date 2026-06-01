@@ -1,5 +1,6 @@
 package io.github.guyskv.signaturepad.core.export
 
+import java.util.Locale
 import io.github.guyskv.signaturepad.core.model.SignatureStroke
 import io.github.guyskv.signaturepad.core.smoothing.PathDataGenerator
 import io.github.guyskv.signaturepad.core.smoothing.SignatureSmoothing
@@ -64,10 +65,12 @@ object SignatureSvgExporter {
 
         // Optional background rectangle
         if (options.includeBackground) {
-            val bgColor = options.backgroundColor?.toHexString() ?: "#FFFFFFFF"
+            val bg = options.backgroundColor
+            val bgColor = bg?.toSvgColor() ?: "#FFFFFF"
+            val bgOpacity = bg?.toSvgOpacity()?.let { fmt(it) } ?: "1.00"
             sb.appendLine(
                 """  <rect x="${fmt(viewLeft)}" y="${fmt(viewTop)}" """ +
-                    """width="${fmt(viewWidth)}" height="${fmt(viewHeight)}" fill="$bgColor"/>"""
+                    """width="${fmt(viewWidth)}" height="${fmt(viewHeight)}" fill="$bgColor" fill-opacity="$bgOpacity"/>"""
             )
         }
 
@@ -76,12 +79,13 @@ object SignatureSvgExporter {
             if (stroke.points.isEmpty()) continue
 
             val pathData = PathDataGenerator.generatePathData(stroke, smoothing)
-            val strokeColor = stroke.color.toHexString()
-            val strokeWidth = "%.2f".format(stroke.widthPx)
+            val strokeColor = stroke.color.toSvgColor()
+            val strokeOpacity = fmt(stroke.color.toSvgOpacity())
+            val strokeWidth = String.format(Locale.US, "%.2f", stroke.widthPx)
 
             sb.appendLine(
                 """  <path d="$pathData" """ +
-                    """fill="none" stroke="$strokeColor" """ +
+                    """fill="none" stroke="$strokeColor" stroke-opacity="$strokeOpacity" """ +
                     """stroke-width="$strokeWidth" """ +
                     """stroke-linecap="round" stroke-linejoin="round"/>"""
             )
@@ -91,5 +95,5 @@ object SignatureSvgExporter {
         return sb.toString()
     }
 
-    private fun fmt(value: Float): String = "%.2f".format(value)
+    private fun fmt(value: Float): String = String.format(Locale.US, "%.2f", value)
 }

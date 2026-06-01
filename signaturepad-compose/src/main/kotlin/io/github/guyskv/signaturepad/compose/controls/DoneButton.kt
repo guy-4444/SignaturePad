@@ -40,7 +40,8 @@ internal fun DoneButton(
     enabled: Boolean = true,
     alignment: Alignment = Alignment.BottomEnd,
     size: Dp = 44.dp,
-    padding: Dp = 8.dp
+    padding: Dp = 8.dp,
+    cornerRadius: Dp = 12.dp
 ) {
     val containerColor = if (enabled) Color(0xFF2E7D32) else Color(0xFF9E9E9E)
     val contentColor = if (enabled) Color.White else Color.White.copy(alpha = 0.5f)
@@ -54,7 +55,7 @@ internal fun DoneButton(
             modifier = Modifier
                 .padding(padding)
                 .size(size)
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(cornerRadius))
                 .background(containerColor)
                 .alpha(if (enabled) 1f else 0.6f)
                 .then(

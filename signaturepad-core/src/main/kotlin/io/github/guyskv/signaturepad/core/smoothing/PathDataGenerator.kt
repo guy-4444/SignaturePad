@@ -1,5 +1,6 @@
 package io.github.guyskv.signaturepad.core.smoothing
 
+import java.util.Locale
 import io.github.guyskv.signaturepad.core.model.SignaturePoint
 import io.github.guyskv.signaturepad.core.model.SignatureStroke
 
@@ -76,6 +77,6 @@ object PathDataGenerator {
     }
 
     private fun fmt(value: Float): String {
-        return "%.2f".format(value)
+        return String.format(Locale.US, "%.2f", value)
     }
 }
