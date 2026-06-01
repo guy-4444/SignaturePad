@@ -62,6 +62,38 @@ SignaturePad(
 )
 ```
 
+## Usage in XML Layouts
+
+Even though this library is built with Compose, you can easily use it in traditional XML layouts using a `ComposeView`.
+
+**1. Add a ComposeView to your XML layout (`activity_main.xml`):**
+```xml
+<androidx.compose.ui.platform.ComposeView
+    android:id="@+id/signaturePadView"
+    android:layout_width="match_parent"
+    android:layout_height="260dp" />
+```
+
+**2. Set the content in your Activity or Fragment:**
+```kotlin
+val composeView = findViewById<ComposeView>(R.id.signaturePadView)
+
+composeView.setContent {
+    val signatureState = rememberSignaturePadState()
+    
+    SignaturePad(
+        state = signatureState,
+        modifier = Modifier.fillMaxSize(),
+        config = SignaturePadConfig(
+            strokeColor = Color.Black,
+            strokeWidth = 3.dp,
+            backgroundColor = Color.White,
+            cornerRadius = 16.dp
+        )
+    )
+}
+```
+
 ## Clear Button
 
 The clear button appears automatically when the signature is not empty:
