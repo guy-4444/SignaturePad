@@ -17,15 +17,30 @@ A production-ready Jetpack Compose library for capturing, validating, and export
 
 ## Installation
 
-Add the dependency to your module-level `build.gradle.kts`:
+Add JitPack to your project's repository configuration (usually in `settings.gradle.kts`):
 
 ```kotlin
-dependencies {
-    implementation(project(":signaturepad-compose"))
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
 }
 ```
 
-> **Note:** Maven Central publication is coming soon. For now, include the modules directly in your project.
+Then, add the dependency to your module-level `build.gradle.kts`:
+
+```kotlin
+dependencies {
+    // For the full Compose UI experience
+    implementation("com.github.guy-4444.SignaturePad:signaturepad-compose:1.00.01")
+    
+    // Or if you only need the headless core models
+    // implementation("com.github.guy-4444.SignaturePad:signaturepad-core:1.00.01")
+}
+```
 
 ## Basic Usage
 
